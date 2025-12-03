@@ -21,4 +21,15 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
  * - Treasury receives 50% of supply on deployment
  */
 contract GamePassToken is ERC20, ERC20Burnable, ERC20Pausable, Ownable, ReentrancyGuard {
+    /// @dev Maximum supply: 1 billion tokens
+    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10**18;
+    
+    /// @dev Address of the rewards contract that can mint tokens
+    address public rewardsContract;
+    
+    /// @dev Address of the swap contract that can mint tokens
+    address public swapContract;
+    
+    /// @dev Treasury address that receives initial supply
+    address public treasury;
 
