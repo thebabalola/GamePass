@@ -155,4 +155,3 @@ contract GamePassToken is ERC20, ERC20Burnable, ERC20Pausable, Ownable, Reentran
         super._update(from, to, value);
     }
 }
-
