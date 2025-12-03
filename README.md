@@ -60,3 +60,5 @@ Reaction Time: Wait for color change. Click as fast as possible. Measure reactio
 ## Rewards
 
 First place wins 40 percent of prize pool. Second place wins 25 percent. Third place wins 15 percent. Places four through ten split 10 percent. All players split 10 percent participation rewards.
+
+Minimum score is 10 points to qualify.
