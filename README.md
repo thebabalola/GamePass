@@ -66,3 +66,7 @@ Minimum score is 10 points to qualify.
 ## MiniPay Integration
 
 MiniPay users get special features. Automatic wallet detection. cUSD balance display. cUSD payment option. Low transaction fees. Add cash button for quick funding.
+
+## Mobile First
+
+GamePass works on your phone. Responsive design fits any screen. iPhone frame on desktop. Full screen on mobile. Touch controls work perfectly.
