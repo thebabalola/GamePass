@@ -104,3 +104,7 @@ View contracts on [Blockscout](https://celo-sepolia.blockscout.com/).
 Contracts README: Smart contract setup and deployment details.
 
 Frontend README: Frontend setup and feature documentation.
+
+## Built for Hackathon
+
+GamePass built for WalletConnect Celo Hackathon. Play to earn mechanics. Mobile first design. Smart contract rewards. MiniPay integration. Multiple games. Ready for users.
