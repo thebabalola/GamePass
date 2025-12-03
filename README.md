@@ -42,3 +42,5 @@ Step six: Claim rewards. Top players earn PASS tokens. Rewards go to your wallet
 ## Games
 
 Rhythm: Tap glowing buttons in sync. Perfect timing scores 10 points. Good timing scores 5 points. Thirty second rounds. Sound effects guide you.
+
+Simon: Watch button sequences. Repeat patterns correctly. Score based on speed. Wrong answer ends the game.
