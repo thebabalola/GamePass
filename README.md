@@ -16,3 +16,7 @@ Play multiple games. Earn rewards. Own your progress.
 - [Getting Started](#getting-started)
 - [Deployed Contracts](#deployed-contracts)
 - [Documentation](#documentation)
+
+## What You Get
+
+You play various games. You score points. You earn PASS tokens.
