@@ -55,3 +55,29 @@ contract GamePassTokenTest is Test {
         assertEq(token.balanceOf(user1), mintAmount, "User1 should receive minted tokens");
         assertEq(token.totalSupply(), TREASURY_INITIAL_SUPPLY + mintAmount, "Total supply should increase");
     }
+    
+    function test_MintingFromSwapContract() public {
+        vm.startPrank(owner);
+        token.setSwapContract(swapContract);
+        vm.stopPrank();
+        
+        uint256 mintAmount = 2000 * 10**18;
+        
+        vm.startPrank(swapContract);
+        token.mint(user1, mintAmount);
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(user1), mintAmount, "User1 should receive minted tokens");
+        assertEq(token.totalSupply(), TREASURY_INITIAL_SUPPLY + mintAmount, "Total supply should increase");
+    }
+    
+    function test_MintingFromOwner() public {
+        uint256 mintAmount = 3000 * 10**18;
+        
+        vm.startPrank(owner);
+        token.mint(user1, mintAmount);
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(user1), mintAmount, "User1 should receive minted tokens");
+        assertEq(token.totalSupply(), TREASURY_INITIAL_SUPPLY + mintAmount, "Total supply should increase");
+    }
