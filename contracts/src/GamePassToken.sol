@@ -44,4 +44,24 @@ contract GamePassToken is ERC20, ERC20Burnable, ERC20Pausable, Ownable, Reentran
     
     /// @dev Event emitted when tokens are minted
     event TokensMinted(address indexed to, uint256 amount, address indexed minter);
+    
+    /**
+     * @dev Constructor
+     * @param _name Token name
+     * @param _symbol Token symbol
+     * @param _treasury Treasury address to receive 50% of max supply
+     */
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        address _treasury
+    ) ERC20(_name, _symbol) Ownable(msg.sender) {
+        require(_treasury != address(0), "Treasury cannot be zero address");
+        
+        treasury = _treasury;
+        
+        // Mint 50% of max supply to treasury
+        uint256 treasuryAmount = MAX_SUPPLY / 2;
+        _mint(treasury, treasuryAmount);
+    }
 
