@@ -130,3 +130,82 @@ contract GamePassTokenTest is Test {
         assertEq(token.totalSupply(), MAX_SUPPLY, "Total supply should equal max supply");
         assertEq(token.balanceOf(user1), remainingSupply, "User1 should receive remaining supply");
     }
+    
+    // ============ Pause Functionality Tests ============
+    
+    function test_PauseUnpause() public {
+        vm.startPrank(owner);
+        
+        // Should not be paused initially
+        assertFalse(token.paused(), "Token should not be paused initially");
+        
+        // Pause the token
+        token.pause();
+        assertTrue(token.paused(), "Token should be paused");
+        
+        // Unpause the token
+        token.unpause();
+        assertFalse(token.paused(), "Token should be unpaused");
+        
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_TransferWhilePaused() public {
+        vm.startPrank(owner);
+        token.mint(user1, 1000 * 10**18);
+        token.pause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        vm.expectRevert();
+        token.transfer(user2, 100 * 10**18);
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_TransferFromWhilePaused() public {
+        vm.startPrank(owner);
+        token.mint(user1, 1000 * 10**18);
+        token.pause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        token.approve(user2, 100 * 10**18);
+        vm.stopPrank();
+        
+        vm.startPrank(user2);
+        vm.expectRevert();
+        token.transferFrom(user1, user2, 100 * 10**18);
+        vm.stopPrank();
+    }
+    
+    function test_TransferAfterUnpause() public {
+        vm.startPrank(owner);
+        token.mint(user1, 1000 * 10**18);
+        token.pause();
+        token.unpause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        token.transfer(user2, 100 * 10**18);
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(user2), 100 * 10**18, "Transfer should work after unpause");
+    }
+    
+    function test_RevertWhen_PauseByNonOwner() public {
+        vm.startPrank(user1);
+        vm.expectRevert();
+        token.pause();
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_UnpauseByNonOwner() public {
+        vm.startPrank(owner);
+        token.pause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        vm.expectRevert();
+        token.unpause();
+        vm.stopPrank();
+    }
