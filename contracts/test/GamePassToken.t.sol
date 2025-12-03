@@ -383,3 +383,55 @@ contract GamePassTokenTest is Test {
         token.burn(100 * 10**18);
         vm.stopPrank();
     }
+    
+    // ============ Integration Tests ============
+    
+    function test_FullWorkflow() public {
+        // Setup contracts
+        vm.startPrank(owner);
+        token.setRewardsContract(rewardsContract);
+        token.setSwapContract(swapContract);
+        vm.stopPrank();
+        
+        // Mint from rewards contract
+        vm.startPrank(rewardsContract);
+        token.mint(user1, 10000 * 10**18);
+        vm.stopPrank();
+        
+        // Mint from swap contract
+        vm.startPrank(swapContract);
+        token.mint(user2, 20000 * 10**18);
+        vm.stopPrank();
+        
+        // Transfer tokens
+        vm.startPrank(user1);
+        token.transfer(user2, 5000 * 10**18);
+        vm.stopPrank();
+        
+        // Burn tokens
+        vm.startPrank(user2);
+        token.burn(10000 * 10**18);
+        vm.stopPrank();
+        
+        // Pause and verify transfers are blocked
+        vm.startPrank(owner);
+        token.pause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        vm.expectRevert();
+        token.transfer(user2, 100 * 10**18);
+        vm.stopPrank();
+        
+        // Unpause and verify transfers work again
+        vm.startPrank(owner);
+        token.unpause();
+        vm.stopPrank();
+        
+        vm.startPrank(user1);
+        token.transfer(user2, 100 * 10**18);
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(user2), 20000 * 10**18 - 10000 * 10**18 + 5000 * 10**18 + 100 * 10**18, "Final balance should be correct");
+    }
+}
