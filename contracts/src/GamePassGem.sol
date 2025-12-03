@@ -82,4 +82,44 @@ contract GamePassGem is ERC721URIStorage, Ownable, ReentrancyGuard {
         treasury = _treasury;
         _tokenIdCounter = 1;
     }
+    
+    /**
+     * @dev Claim/mint a Gem NFT
+     * @param _receiver Address to receive the Gem
+     * @param _quantity Number of Gems to mint
+     * @param _currency Payment token address
+     * @param _pricePerToken Price per token
+     * @param _allowlistProof Allowlist proof (not used but for compatibility)
+     * @param _data Additional data (not used)
+     */
+    function claim(
+        address _receiver,
+        uint256 _quantity,
+        address _currency,
+        uint256 _pricePerToken,
+        AllowlistProof memory _allowlistProof,
+        bytes memory _data
+    ) external payable nonReentrant {
+        require(claimActive, "Claim is not active");
+        require(block.timestamp >= claimStartTime, "Claim has not started");
+        require(_quantity > 0, "Quantity must be greater than 0");
+        require(_quantity == 1, "Can only claim one Gem at a time");
+        require(_tokenIdCounter + _quantity - 1 <= maxSupply, "Exceeds max supply");
+        require(_currency == paymentToken, "Invalid payment token");
+        require(_pricePerToken == PRICE_PER_GEM, "Invalid price");
+        
+        uint256 totalPrice = PRICE_PER_GEM * _quantity;
+        
+        // Transfer payment tokens from user to treasury
+        IERC20(paymentToken).safeTransferFrom(msg.sender, treasury, totalPrice);
+        
+        // Mint NFTs
+        uint256 startTokenId = _tokenIdCounter;
+        for (uint256 i = 0; i < _quantity; i++) {
+            _safeMint(_receiver, _tokenIdCounter);
+            _tokenIdCounter++;
+        }
+        
+        emit TokensClaimed(0, msg.sender, _receiver, startTokenId, _quantity);
+    }
 
