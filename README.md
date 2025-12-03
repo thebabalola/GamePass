@@ -90,3 +90,5 @@ Contracts: See contracts README for setup. Deploy to Celo Sepolia testnet. Updat
 Celo Sepolia Testnet:
 
 PASS Token: `0x0000000000000000000000000000000000000000`
+
+Swap Contract: `0x0000000000000000000000000000000000000000`
