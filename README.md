@@ -48,3 +48,11 @@ Simon: Watch button sequences. Repeat patterns correctly. Score based on speed. 
 Snake: Control snake with arrow keys. Eat food to grow. Score increases with food eaten. Game over on wall collision or self collision.
 
 Tetris: Falling block mechanics. Line clearing for points. Progressive speed increase. Rotation controls. Score calculation.
+
+Flappy Bird: Tap or click to jump. Avoid obstacles. Score increases with distance. Collision detection. Progressive difficulty.
+
+Memory Card: Grid of face down cards. Flip two cards at a time. Match pairs to score points. Time based scoring. Move counter.
+
+Word Puzzle: Display scrambled letters. User forms words. Score based on word length. Time limit per round. Hint system.
+
+Reaction Time: Wait for color change. Click as fast as possible. Measure reaction time. Calculate score from speed. Multiple rounds.
