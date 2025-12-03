@@ -98,3 +98,9 @@ Gem Contract: `0x0000000000000000000000000000000000000000`
 Rewards Contract: `0x0000000000000000000000000000000000000000`
 
 View contracts on [Blockscout](https://celo-sepolia.blockscout.com/).
+
+## Documentation
+
+Contracts README: Smart contract setup and deployment details.
+
+Frontend README: Frontend setup and feature documentation.
