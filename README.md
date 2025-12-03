@@ -88,3 +88,5 @@ Contracts: See contracts README for setup. Deploy to Celo Sepolia testnet. Updat
 ## Deployed Contracts
 
 Celo Sepolia Testnet:
+
+PASS Token: `0x0000000000000000000000000000000000000000`
