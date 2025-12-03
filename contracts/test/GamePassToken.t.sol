@@ -28,3 +28,13 @@ contract GamePassTokenTest is Test {
         
         vm.stopPrank();
     }
+    
+    // ============ Initial Supply Tests ============
+    
+    function test_InitialSupplyMinting() public {
+        assertEq(token.totalSupply(), TREASURY_INITIAL_SUPPLY, "Treasury should receive 50% of max supply");
+        assertEq(token.balanceOf(treasury), TREASURY_INITIAL_SUPPLY, "Treasury balance should be 50% of max supply");
+        assertEq(token.name(), "GamePass Token", "Token name should be correct");
+        assertEq(token.symbol(), "PASS", "Token symbol should be correct");
+        assertEq(token.MAX_SUPPLY(), MAX_SUPPLY, "Max supply should be 1 billion tokens");
+    }
