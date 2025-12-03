@@ -36,3 +36,5 @@ Step three: Mint your Gem. Spend 34 PASS tokens. One Gem unlocks all games. Your
 Step four: Play games. Choose from multiple games. Tap buttons. Remember patterns. Score points. Games submit scores automatically.
 
 Step five: View leaderboard. See top 10 players. Top three get podium display. Your position shows your rank.
+
+Step six: Claim rewards. Top players earn PASS tokens. Rewards go to your wallet. Prize pool distributes automatically.
