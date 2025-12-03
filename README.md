@@ -38,3 +38,5 @@ Step four: Play games. Choose from multiple games. Tap buttons. Remember pattern
 Step five: View leaderboard. See top 10 players. Top three get podium display. Your position shows your rank.
 
 Step six: Claim rewards. Top players earn PASS tokens. Rewards go to your wallet. Prize pool distributes automatically.
+
+## Games
