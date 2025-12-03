@@ -126,4 +126,18 @@ contract GamePassToken is ERC20, ERC20Burnable, ERC20Pausable, Ownable, Reentran
         
         emit TreasuryUpdated(oldTreasury, _treasury);
     }
+    
+    /**
+     * @dev Pause token transfers (only owner)
+     */
+    function pause() external onlyOwner {
+        _pause();
+    }
+    
+    /**
+     * @dev Unpause token transfers (only owner)
+     */
+    function unpause() external onlyOwner {
+        _unpause();
+    }
 
