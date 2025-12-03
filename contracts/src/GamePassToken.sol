@@ -87,4 +87,17 @@ contract GamePassToken is ERC20, ERC20Burnable, ERC20Pausable, Ownable, Reentran
         
         emit TokensMinted(_to, _amount, msg.sender);
     }
+    
+    /**
+     * @dev Set the rewards contract address (only owner)
+     * @param _rewardsContract Address of the new rewards contract
+     */
+    function setRewardsContract(address _rewardsContract) external onlyOwner {
+        require(_rewardsContract != address(0), "Rewards contract cannot be zero address");
+        
+        address oldContract = rewardsContract;
+        rewardsContract = _rewardsContract;
+        
+        emit RewardsContractUpdated(oldContract, _rewardsContract);
+    }
 
