@@ -56,3 +56,7 @@ Memory Card: Grid of face down cards. Flip two cards at a time. Match pairs to s
 Word Puzzle: Display scrambled letters. User forms words. Score based on word length. Time limit per round. Hint system.
 
 Reaction Time: Wait for color change. Click as fast as possible. Measure reaction time. Calculate score from speed. Multiple rounds.
+
+## Rewards
+
+First place wins 40 percent of prize pool. Second place wins 25 percent. Third place wins 15 percent. Places four through ten split 10 percent. All players split 10 percent participation rewards.
