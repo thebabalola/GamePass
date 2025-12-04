@@ -143,3 +143,24 @@ contract GamePassSwapTest is Test {
         vm.stopPrank();
     }
 
+    
+    function test_RevertWhen_BuyTokensWithCUSD_InsufficientAllowance() public {
+        uint256 cusdAmount = 17 * 10**16;
+        
+        vm.startPrank(buyer);
+        vm.expectRevert();
+        swap.buyTokensWithCUSD(cusdAmount);
+        vm.stopPrank();
+    }
+    
+    // ============ Exchange Rate Tests ============
+    
+    function test_SetCeloExchangeRate() public {
+        uint256 newRate = 2 ether; // New rate: 2 CELO = 30 PASS
+        
+        vm.startPrank(owner);
+        swap.setCeloExchangeRate(newRate);
+        vm.stopPrank();
+        
+        assertEq(swap.celoExchangeRate(), newRate, "CELO exchange rate should be updated");
+    }
