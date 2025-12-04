@@ -41,3 +41,18 @@ forge test
 ```
 
 All tests must pass before deployment.
+
+## Configuration
+
+Create a `.env` file in the contracts directory:
+
+```
+PRIVATE_KEY=0xyour_private_key_with_0x_prefix
+TREASURY_ADDRESS=your_treasury_address
+ETHERSCAN_API_KEY=your_etherscan_api_key
+```
+
+Important notes:
+- Private key must include 0x prefix
+- Treasury address receives initial 500M PASS tokens
+- Etherscan API key works for Celo Mainnet and Celo Sepolia
