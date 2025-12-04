@@ -64,4 +64,35 @@ contract GamePassSwapTest is Test {
         
         assertEq(token.balanceOf(buyer), expectedPass, "Buyer should receive 30 PASS tokens");
     }
+    
+    function test_BuyTokensWithCELO_FractionalAmount() public {
+        uint256 celoAmount = 0.5 ether; // 0.5 CELO
+        uint256 expectedPass = 15 * 10**18; // 15 PASS tokens
+        
+        vm.deal(buyer, celoAmount);
+        
+        vm.startPrank(buyer);
+        swap.buyTokens{value: celoAmount}();
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(buyer), expectedPass, "Buyer should receive 15 PASS tokens");
+    }
+    
+    function test_RevertWhen_BuyTokens_BelowMinimum() public {
+        uint256 celoAmount = swap.minCeloPurchase() - 1;
+        
+        vm.deal(buyer, celoAmount);
+        
+        vm.startPrank(buyer);
+        vm.expectRevert("Payment below minimum");
+        swap.buyTokens{value: celoAmount}();
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_BuyTokens_ZeroValue() public {
+        vm.startPrank(buyer);
+        vm.expectRevert("Payment must be greater than zero");
+        swap.buyTokens{value: 0}();
+        vm.stopPrank();
+    }
 
