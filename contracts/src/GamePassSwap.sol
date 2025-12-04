@@ -93,4 +93,21 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         
         emit TokensPurchased(msg.sender, passAmount, "CELO");
     }
+    
+    /**
+     * @dev Buy PASS tokens with cUSD
+     * @param _cusdAmount Amount of cUSD to spend
+     */
+    function buyTokensWithCUSD(uint256 _cusdAmount) external nonReentrant {
+        require(_cusdAmount >= minCusdPurchase, "Payment below minimum");
+        require(_cusdAmount > 0, "Payment must be greater than zero");
+        
+        uint256 passAmount = (_cusdAmount * 10**18) / cusdExchangeRate;
+        require(passAmount > 0, "Token amount must be greater than zero");
+        
+        cusdToken.safeTransferFrom(msg.sender, address(this), _cusdAmount);
+        gamePassToken.mint(msg.sender, passAmount);
+        
+        emit TokensPurchased(msg.sender, passAmount, "cUSD");
+    }
 
