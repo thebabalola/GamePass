@@ -164,3 +164,25 @@ CELO to PASS: 1 CELO = 30 PASS tokens
 cUSD to PASS: 0.17 cUSD = 30 PASS tokens
 
 Gem Price: 34 PASS tokens per Gem
+
+## Testing
+
+Run all tests:
+
+```bash
+forge test
+```
+
+Run specific test file:
+
+```bash
+forge test --match-path test/GamePassGem.t.sol
+```
+
+Run with verbosity:
+
+```bash
+forge test -vvv
+```
+
+All tests must pass before deployment.
