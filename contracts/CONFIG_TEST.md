@@ -1,1 +1,0 @@
-# Celo Network Configuration Test\n\n## RPC Endpoints\n- Celo Sepolia: celo-sepolia\n- Celo Mainnet: celo\n\n## Verification\n- Celo Sepolia: Blockscout\n- Celo Mainnet: CeloScan\n\n## Test Commands\n```bash\n# Test RPC connection\nforge script --rpc-url celo-sepolia\n```
