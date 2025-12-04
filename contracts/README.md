@@ -93,3 +93,19 @@ This deploys new token and swap contracts. Includes cUSD payment support.
 ```bash
 forge script script/Deploy.s.sol:DeployScript --rpc-url celo --broadcast --verify
 ```
+
+## Deployed Contracts
+
+Celo Sepolia Testnet:
+
+GamePassToken: (To be deployed)
+
+GamePassSwap: (To be deployed)
+
+GamePassGem: (To be deployed)
+
+GamePassRewards: (To be deployed)
+
+cUSD Token: 0xdE9e4C3ce781b4bA68120d6261cbad65ce0aB00b
+
+View contracts on Blockscout: https://celo-sepolia.blockscout.com/
