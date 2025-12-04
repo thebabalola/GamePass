@@ -41,4 +41,17 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
     
     /// @dev Minimum cUSD purchase amount
     uint256 public minCusdPurchase;
+    
+    /// @dev Event emitted when tokens are purchased
+    event TokensPurchased(
+        address indexed buyer,
+        uint256 amount,
+        string paymentMethod
+    );
+    
+    /// @dev Event emitted when CELO exchange rate is updated
+    event CeloExchangeRateUpdated(uint256 oldRate, uint256 newRate);
+    
+    /// @dev Event emitted when cUSD exchange rate is updated
+    event CusdExchangeRateUpdated(uint256 oldRate, uint256 newRate);
 
