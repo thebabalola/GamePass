@@ -136,4 +136,36 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         
         emit CusdExchangeRateUpdated(oldRate, _rate);
     }
+    
+    /**
+     * @dev Set minimum CELO purchase amount (only owner)
+     * @param _minAmount Minimum purchase amount in wei
+     */
+    function setMinCeloPurchase(uint256 _minAmount) external onlyOwner {
+        minCeloPurchase = _minAmount;
+    }
+    
+    /**
+     * @dev Set minimum cUSD purchase amount (only owner)
+     * @param _minAmount Minimum purchase amount in wei
+     */
+    function setMinCusdPurchase(uint256 _minAmount) external onlyOwner {
+        minCusdPurchase = _minAmount;
+    }
+    
+    /**
+     * @dev Withdraw CELO from contract (only owner)
+     */
+    function withdrawCELO() external onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+    
+    /**
+     * @dev Withdraw cUSD from contract (only owner)
+     */
+    function withdrawCUSD() external onlyOwner {
+        uint256 balance = cusdToken.balanceOf(address(this));
+        cusdToken.safeTransfer(owner(), balance);
+    }
+}
 
