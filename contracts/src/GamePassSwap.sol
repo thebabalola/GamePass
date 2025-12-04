@@ -71,9 +71,9 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         cusdToken = IERC20(_cusdToken);
         
         // Default exchange rates: 1 CELO = 30 PASS, 0.17 cUSD = 30 PASS
-        // Stored for reference, actual calculation uses hardcoded values for precision
-        celoExchangeRate = 1 ether; // Reference: 1 CELO
-        cusdExchangeRate = 17 * 10**16; // Reference: 0.17 cUSD
+        // Exchange rate represents the payment amount for 30 PASS tokens
+        celoExchangeRate = 1 ether; // 1 CELO = 30 PASS
+        cusdExchangeRate = 17 * 10**16; // 0.17 cUSD = 30 PASS
         
         // Minimum purchase: 0.01 CELO or 0.01 cUSD
         minCeloPurchase = 10**16; // 0.01 CELO
@@ -87,7 +87,7 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         require(msg.value >= minCeloPurchase, "Payment below minimum");
         require(msg.value > 0, "Payment must be greater than zero");
         
-        uint256 passAmount = (msg.value * 30 * 10**18) / (1 ether);
+        uint256 passAmount = (msg.value * 30 * 10**18) / celoExchangeRate;
         require(passAmount > 0, "Token amount must be greater than zero");
         
         gamePassToken.mint(msg.sender, passAmount);
@@ -103,7 +103,7 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         require(_cusdAmount >= minCusdPurchase, "Payment below minimum");
         require(_cusdAmount > 0, "Payment must be greater than zero");
         
-        uint256 passAmount = (_cusdAmount * 30 * 10**18) / (17 * 10**16);
+        uint256 passAmount = (_cusdAmount * 30 * 10**18) / cusdExchangeRate;
         require(passAmount > 0, "Token amount must be greater than zero");
         
         cusdToken.safeTransferFrom(msg.sender, address(this), _cusdAmount);
