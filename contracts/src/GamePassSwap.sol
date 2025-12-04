@@ -54,4 +54,28 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
     
     /// @dev Event emitted when cUSD exchange rate is updated
     event CusdExchangeRateUpdated(uint256 oldRate, uint256 newRate);
+    
+    /**
+     * @dev Constructor
+     * @param _gamePassToken Address of GamePassToken contract
+     * @param _cusdToken Address of cUSD token contract
+     */
+    constructor(
+        address _gamePassToken,
+        address _cusdToken
+    ) Ownable(msg.sender) {
+        require(_gamePassToken != address(0), "GamePassToken cannot be zero address");
+        require(_cusdToken != address(0), "cUSD token cannot be zero address");
+        
+        gamePassToken = GamePassToken(_gamePassToken);
+        cusdToken = IERC20(_cusdToken);
+        
+        // Default exchange rates: 1 CELO = 30 PASS, 0.17 cUSD = 30 PASS
+        celoExchangeRate = 1 ether / 30; // 1 CELO / 30 PASS = 0.0333... CELO per PASS
+        cusdExchangeRate = (17 * 10**16) / 30; // 0.17 cUSD / 30 PASS = 0.00566... cUSD per PASS
+        
+        // Minimum purchase: 0.01 CELO or 0.01 cUSD
+        minCeloPurchase = 10**16; // 0.01 CELO
+        minCusdPurchase = 10**16; // 0.01 cUSD
+    }
 
