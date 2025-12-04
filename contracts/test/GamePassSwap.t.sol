@@ -49,4 +49,19 @@ contract GamePassSwapTest is Test {
         vm.prank(owner);
         cusd.mint(buyer, 1000 ether);
     }
+    
+    // ============ CELO Purchase Tests ============
+    
+    function test_BuyTokensWithCELO() public {
+        uint256 celoAmount = 1 ether; // 1 CELO
+        uint256 expectedPass = THIRTY_PASS; // 30 PASS tokens
+        
+        vm.deal(buyer, celoAmount);
+        
+        vm.startPrank(buyer);
+        swap.buyTokens{value: celoAmount}();
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(buyer), expectedPass, "Buyer should receive 30 PASS tokens");
+    }
 
