@@ -164,3 +164,27 @@ contract GamePassSwapTest is Test {
         
         assertEq(swap.celoExchangeRate(), newRate, "CELO exchange rate should be updated");
     }
+    
+    function test_SetCusdExchangeRate() public {
+        uint256 newRate = 34 * 10**16; // New rate: 0.34 cUSD = 30 PASS
+        
+        vm.startPrank(owner);
+        swap.setCusdExchangeRate(newRate);
+        vm.stopPrank();
+        
+        assertEq(swap.cusdExchangeRate(), newRate, "cUSD exchange rate should be updated");
+    }
+    
+    function test_RevertWhen_SetCeloExchangeRate_Zero() public {
+        vm.startPrank(owner);
+        vm.expectRevert("Exchange rate must be greater than zero");
+        swap.setCeloExchangeRate(0);
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_SetCusdExchangeRate_Zero() public {
+        vm.startPrank(owner);
+        vm.expectRevert("Exchange rate must be greater than zero");
+        swap.setCusdExchangeRate(0);
+        vm.stopPrank();
+    }
