@@ -27,4 +27,18 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
     
     /// @dev cUSD token address
     IERC20 public cusdToken;
+    
+    /// @dev Exchange rate: CELO to PASS tokens (wei per token)
+    /// Default: 1 CELO = 30 PASS tokens
+    uint256 public celoExchangeRate;
+    
+    /// @dev Exchange rate: cUSD to PASS tokens (wei per token)
+    /// Default: 0.17 cUSD = 30 PASS tokens
+    uint256 public cusdExchangeRate;
+    
+    /// @dev Minimum CELO purchase amount
+    uint256 public minCeloPurchase;
+    
+    /// @dev Minimum cUSD purchase amount
+    uint256 public minCusdPurchase;
 
