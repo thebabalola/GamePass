@@ -95,4 +95,19 @@ contract GamePassSwapTest is Test {
         swap.buyTokens{value: 0}();
         vm.stopPrank();
     }
+    
+    // ============ cUSD Purchase Tests ============
+    
+    function test_BuyTokensWithCUSD() public {
+        uint256 cusdAmount = 17 * 10**16; // 0.17 cUSD
+        uint256 expectedPass = THIRTY_PASS; // 30 PASS tokens
+        
+        vm.startPrank(buyer);
+        cusd.approve(address(swap), cusdAmount);
+        swap.buyTokensWithCUSD(cusdAmount);
+        vm.stopPrank();
+        
+        assertEq(token.balanceOf(buyer), expectedPass, "Buyer should receive 30 PASS tokens");
+        assertEq(cusd.balanceOf(address(swap)), cusdAmount, "Swap should receive cUSD");
+    }
 
