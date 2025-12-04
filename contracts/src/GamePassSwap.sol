@@ -86,7 +86,7 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         require(msg.value >= minCeloPurchase, "Payment below minimum");
         require(msg.value > 0, "Payment must be greater than zero");
         
-        uint256 passAmount = (msg.value * 10**18) / celoExchangeRate;
+        uint256 passAmount = (msg.value * 30 * 10**18) / (1 ether);
         require(passAmount > 0, "Token amount must be greater than zero");
         
         gamePassToken.mint(msg.sender, passAmount);
