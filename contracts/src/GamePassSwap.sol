@@ -123,4 +123,17 @@ contract GamePassSwap is Ownable, ReentrancyGuard {
         
         emit CeloExchangeRateUpdated(oldRate, _rate);
     }
+    
+    /**
+     * @dev Set cUSD exchange rate (only owner)
+     * @param _rate New exchange rate (wei per token)
+     */
+    function setCusdExchangeRate(uint256 _rate) external onlyOwner {
+        require(_rate > 0, "Exchange rate must be greater than zero");
+        
+        uint256 oldRate = cusdExchangeRate;
+        cusdExchangeRate = _rate;
+        
+        emit CusdExchangeRateUpdated(oldRate, _rate);
+    }
 
