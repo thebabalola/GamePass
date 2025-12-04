@@ -27,4 +27,26 @@ contract GamePassSwapTest is Test {
     
     uint256 constant ONE_CELO = 1 ether;
     uint256 constant THIRTY_PASS = 30 * 10**18;
+    
+    function setUp() public {
+        vm.startPrank(owner);
+        
+        // Deploy GamePassToken
+        token = new GamePassToken("GamePass Token", "PASS", treasury);
+        
+        // Deploy mock cUSD
+        cusd = new MockERC20("Celo Dollar", "cUSD");
+        
+        // Deploy GamePassSwap
+        swap = new GamePassSwap(address(token), address(cusd));
+        
+        // Set swap contract in token
+        token.setSwapContract(address(swap));
+        
+        vm.stopPrank();
+        
+        // Give buyer some cUSD
+        vm.prank(owner);
+        cusd.mint(buyer, 1000 ether);
+    }
 
