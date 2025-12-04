@@ -156,3 +156,11 @@ Reward distribution:
 Owner calls fundPrizePool function.
 
 Mints PASS tokens directly to contract.
+
+## Exchange Rates
+
+CELO to PASS: 1 CELO = 30 PASS tokens
+
+cUSD to PASS: 0.17 cUSD = 30 PASS tokens
+
+Gem Price: 34 PASS tokens per Gem
