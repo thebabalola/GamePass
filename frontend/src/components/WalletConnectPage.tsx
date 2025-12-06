@@ -4,7 +4,25 @@ import React from "react";
 import { useWallet } from "@/src/context/WalletContext";
 
 export const WalletConnectPage: React.FC = () => {
-  const { connectWallet, isConnecting, error } = useWallet();
+  const { connectWallet, isConnecting, error, isConnected } = useWallet();
+  const [availableWallets, setAvailableWallets] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Auto-detect installed wallets
+    const detected: string[] = [];
+    
+    if (typeof window !== "undefined") {
+      if (window.ethereum?.isMetaMask) {
+        detected.push("io.metamask");
+      }
+      // MiniPay detection
+      if (window.ethereum?.isMiniPay) {
+        detected.push("minipay");
+      }
+    }
+    
+    setAvailableWallets(detected);
+  }, []);
 
   const handleConnectMetaMask = () => {
     connectWallet("io.metamask");
@@ -17,6 +35,10 @@ export const WalletConnectPage: React.FC = () => {
   const handleConnectMiniPay = () => {
     connectWallet("minipay");
   };
+
+  if (isConnected) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
