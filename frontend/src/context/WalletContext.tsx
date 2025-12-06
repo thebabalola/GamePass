@@ -41,3 +41,8 @@ export const useWallet = () => {
   return context;
 };
 
+interface WalletProviderProps {
+  children: ReactNode;
+  clientId: string;
+}
+
