@@ -46,3 +46,8 @@ interface WalletProviderProps {
   clientId: string;
 }
 
+export const WalletProvider: React.FC<WalletProviderProps> = ({ children, clientId }) => {
+  const [address, setAddress] = useState<string | undefined>();
+  const [balance, setBalance] = useState<string>("0");
+  const [chainId, setChainId] = useState<number | undefined>();
+
