@@ -147,5 +147,39 @@ contract GamePassRewardsTest is Test {
         GamePassRewards.LeaderboardEntry memory lastEntry = rewards.getLeaderboardEntry(99);
         assertEq(lastEntry.score, 200, "Last entry should be score 200 (player 100)");
     }
+    
+    // ============ Prize Pool Funding Tests ============
+    
+    function test_FundPrizePool() public {
+        vm.prank(owner);
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+        
+        assertEq(rewards.prizePool(), PRIZE_POOL_AMOUNT, "Prize pool should be funded");
+        assertEq(token.balanceOf(address(rewards)), PRIZE_POOL_AMOUNT, "Contract should have tokens");
+    }
+    
+    function test_FundPrizePool_MultipleTimes() public {
+        uint256 amount1 = 500 * 10**18;
+        uint256 amount2 = 300 * 10**18;
+        
+        vm.startPrank(owner);
+        rewards.fundPrizePool(amount1);
+        rewards.fundPrizePool(amount2);
+        vm.stopPrank();
+        
+        assertEq(rewards.prizePool(), amount1 + amount2, "Prize pool should accumulate");
+    }
+    
+    function test_RevertWhen_FundPrizePool_NotOwner() public {
+        vm.prank(player1);
+        vm.expectRevert();
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+    }
+    
+    function test_RevertWhen_FundPrizePool_ZeroAmount() public {
+        vm.prank(owner);
+        vm.expectRevert("Amount must be greater than zero");
+        rewards.fundPrizePool(0);
+    }
 }
 
