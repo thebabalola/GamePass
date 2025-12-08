@@ -278,4 +278,19 @@ contract GamePassRewards is Ownable, ReentrancyGuard {
         }
         return count;
     }
+    
+    /**
+     * @dev Fund the prize pool (only owner)
+     * @param _amount Amount of tokens to add to prize pool
+     */
+    function fundPrizePool(uint256 _amount) external onlyOwner {
+        require(_amount > 0, "Amount must be greater than zero");
+        
+        prizePool += _amount;
+        
+        // Mint tokens to this contract
+        gamePassToken.mint(address(this), _amount);
+        
+        emit PrizePoolFunded(_amount, prizePool);
+    }
 
