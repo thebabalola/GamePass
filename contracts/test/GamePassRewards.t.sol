@@ -354,13 +354,17 @@ contract GamePassRewardsTest is Test {
     function test_RevertWhen_ClaimRewards_BelowMinimumScore() public {
         vm.startPrank(owner);
         rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
-        // Set higher threshold
-        rewards.setMinScoreThreshold(50);
         vm.stopPrank();
         
+        // Submit score with current threshold (10)
         vm.prank(backend);
-        rewards.submitScore(player1, 30); // Below new threshold
+        rewards.submitScore(player1, 30);
         
+        // Now increase threshold
+        vm.prank(owner);
+        rewards.setMinScoreThreshold(50);
+        
+        // Player's score (30) is now below new threshold (50)
         vm.prank(player1);
         vm.expectRevert("Score below minimum threshold");
         rewards.claimRewards(player1);
