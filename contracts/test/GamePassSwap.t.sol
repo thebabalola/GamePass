@@ -260,7 +260,6 @@ contract GamePassSwapTest is Test {
         assertEq(address(swap).balance, celoAmount, "Contract should have received CELO");
         
         uint256 ownerBalanceBefore = owner.balance;
-        vm.deal(owner, 0); // Ensure owner starts with 0 balance for accurate test
         
         vm.prank(owner);
         swap.withdrawCELO();
