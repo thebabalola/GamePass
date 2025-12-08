@@ -347,4 +347,22 @@ contract GamePassRewards is Ownable, ReentrancyGuard {
         
         return _calculateReward(actualIndex);
     }
+    
+    /**
+     * @dev Set backend validator address (only owner)
+     * @param _backendValidator Address of the new backend validator
+     */
+    function setBackendValidator(address _backendValidator) external onlyOwner {
+        require(_backendValidator != address(0), "Backend validator cannot be zero address");
+        backendValidator = _backendValidator;
+    }
+    
+    /**
+     * @dev Set minimum score threshold (only owner)
+     * @param _minScoreThreshold New minimum score threshold
+     */
+    function setMinScoreThreshold(uint256 _minScoreThreshold) external onlyOwner {
+        minScoreThreshold = _minScoreThreshold;
+    }
+}
 
