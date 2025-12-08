@@ -278,5 +278,91 @@ contract GamePassRewardsTest is Test {
         // Let me check the actual calculation - it seems participation is for all eligible players
         assertTrue(actualReward > 0, "Player should get participation reward");
     }
+    
+    // ============ Reward Claiming Tests ============
+    
+    function test_ClaimRewards_FirstPlace() public {
+        vm.startPrank(owner);
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+        vm.stopPrank();
+        
+        vm.prank(backend);
+        rewards.submitScore(player1, 100);
+        
+        uint256 expectedReward = (PRIZE_POOL_AMOUNT * 4000) / 10000;
+        uint256 playerBalanceBefore = token.balanceOf(player1);
+        
+        vm.prank(player1);
+        rewards.claimRewards(player1);
+        
+        assertEq(token.balanceOf(player1), playerBalanceBefore + expectedReward, "Player should receive reward");
+        assertTrue(rewards.hasClaimed(player1), "Player should be marked as claimed");
+        assertEq(rewards.prizePool(), PRIZE_POOL_AMOUNT - expectedReward, "Prize pool should decrease");
+    }
+    
+    function test_ClaimRewards_MultiplePlayers() public {
+        vm.startPrank(owner);
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+        vm.stopPrank();
+        
+        vm.startPrank(backend);
+        rewards.submitScore(player1, 300);
+        rewards.submitScore(player2, 200);
+        rewards.submitScore(player3, 100);
+        vm.stopPrank();
+        
+        uint256 reward1 = (PRIZE_POOL_AMOUNT * 4000) / 10000; // 40%
+        uint256 reward2 = (PRIZE_POOL_AMOUNT * 2500) / 10000; // 25%
+        uint256 reward3 = (PRIZE_POOL_AMOUNT * 1500) / 10000; // 15%
+        
+        vm.prank(player1);
+        rewards.claimRewards(player1);
+        
+        vm.prank(player2);
+        rewards.claimRewards(player2);
+        
+        vm.prank(player3);
+        rewards.claimRewards(player3);
+        
+        assertEq(token.balanceOf(player1), reward1, "Player1 should receive 40%");
+        assertEq(token.balanceOf(player2), reward2, "Player2 should receive 25%");
+        assertEq(token.balanceOf(player3), reward3, "Player3 should receive 15%");
+    }
+    
+    function test_RevertWhen_ClaimRewards_NotInLeaderboard() public {
+        vm.prank(player1);
+        vm.expectRevert("Player not in leaderboard");
+        rewards.claimRewards(player1);
+    }
+    
+    function test_RevertWhen_ClaimRewards_AlreadyClaimed() public {
+        vm.startPrank(owner);
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+        vm.stopPrank();
+        
+        vm.prank(backend);
+        rewards.submitScore(player1, 100);
+        
+        vm.startPrank(player1);
+        rewards.claimRewards(player1);
+        vm.expectRevert("Rewards already claimed");
+        rewards.claimRewards(player1);
+        vm.stopPrank();
+    }
+    
+    function test_RevertWhen_ClaimRewards_BelowMinimumScore() public {
+        vm.startPrank(owner);
+        rewards.fundPrizePool(PRIZE_POOL_AMOUNT);
+        // Set higher threshold
+        rewards.setMinScoreThreshold(50);
+        vm.stopPrank();
+        
+        vm.prank(backend);
+        rewards.submitScore(player1, 30); // Below new threshold
+        
+        vm.prank(player1);
+        vm.expectRevert("Score below minimum threshold");
+        rewards.claimRewards(player1);
+    }
 }
 
