@@ -80,4 +80,23 @@ contract GamePassRewards is Ownable, ReentrancyGuard {
         uint256 amount,
         uint256 newTotal
     );
+    
+    /**
+     * @dev Constructor
+     * @param _gamePassToken Address of GamePassToken contract
+     * @param _backendValidator Address of backend validator
+     * @param _minScoreThreshold Minimum score threshold to qualify
+     */
+    constructor(
+        address _gamePassToken,
+        address _backendValidator,
+        uint256 _minScoreThreshold
+    ) Ownable(msg.sender) {
+        require(_gamePassToken != address(0), "GamePassToken cannot be zero address");
+        require(_backendValidator != address(0), "Backend validator cannot be zero address");
+        
+        gamePassToken = GamePassToken(_gamePassToken);
+        backendValidator = _backendValidator;
+        minScoreThreshold = _minScoreThreshold;
+    }
 
