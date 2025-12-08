@@ -224,7 +224,7 @@ contract GamePassRewards is Ownable, ReentrancyGuard {
         prizePool -= rewardAmount;
         
         // Transfer tokens
-        gamePassToken.safeTransfer(_player, rewardAmount);
+        IERC20(address(gamePassToken)).safeTransfer(_player, rewardAmount);
         
         emit RewardsDistributed(_player, rewardAmount, actualIndex + 1); // Rank is 1-indexed
     }
