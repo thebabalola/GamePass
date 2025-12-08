@@ -111,5 +111,41 @@ contract GamePassRewardsTest is Test {
         rewards.submitScore(player1, 100);
         vm.stopPrank();
     }
+    
+    // ============ Leaderboard Sorting Tests ============
+    
+    function test_Leaderboard_SortedByScoreDescending() public {
+        vm.startPrank(backend);
+        rewards.submitScore(player1, 50);
+        rewards.submitScore(player2, 300);
+        rewards.submitScore(player3, 150);
+        rewards.submitScore(player4, 250);
+        vm.stopPrank();
+        
+        GamePassRewards.LeaderboardEntry[] memory entries = rewards.getLeaderboard();
+        assertEq(entries.length, 4, "Should have 4 entries");
+        
+        // Verify descending order
+        assertEq(entries[0].score, 300, "First should be highest");
+        assertEq(entries[1].score, 250, "Second should be second highest");
+        assertEq(entries[2].score, 150, "Third should be third highest");
+        assertEq(entries[3].score, 50, "Fourth should be lowest");
+    }
+    
+    function test_Leaderboard_MaxSizeLimit() public {
+        vm.startPrank(backend);
+        // Submit 101 scores (exceeds MAX_LEADERBOARD_SIZE of 100)
+        for (uint256 i = 0; i < 101; i++) {
+            address player = address(uint160(100 + i)); // Generate unique addresses
+            rewards.submitScore(player, 100 + i);
+        }
+        vm.stopPrank();
+        
+        assertEq(rewards.getLeaderboardLength(), 100, "Leaderboard should be capped at 100");
+        
+        // Lowest score should be removed
+        GamePassRewards.LeaderboardEntry memory lastEntry = rewards.getLeaderboardEntry(99);
+        assertEq(lastEntry.score, 200, "Last entry should be score 200 (player 100)");
+    }
 }
 
